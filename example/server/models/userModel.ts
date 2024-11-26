@@ -23,6 +23,7 @@ export interface IUser extends Document {
   userFunctions:mongoose.Types.ObjectId[];
   subscriptionExpiresAt: Date;
   workspaces: mongoose.Types.ObjectId[]; // Reference to workspaces the user is part of
+  assignPermissions: ()=> void
 }
 
 const userSchema = new Schema<IUser>({
