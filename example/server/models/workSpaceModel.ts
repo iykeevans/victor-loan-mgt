@@ -2,11 +2,11 @@
 
 import mongoose, { Schema, Document } from 'mongoose';
 // roles will be dynmiclly created
-// export enum UserRole {
-//   OWNER = 'Super Admin',
-//   ADMIN = 'Admin',
-//   MEMBER = 'User',
-// }
+export enum UserRole {
+  OWNER = 'Super Admin',
+  ADMIN = 'Admin',
+  MEMBER = 'User',
+}
 export interface IPlugin {
     pluginId:any;// mongoose.Types.ObjectId;  // plugins cn be purchased by organizations  free or paid
     purchased: boolean;

@@ -32,7 +32,7 @@ export const checkPermission = async (userId: string, workspaceId: string, permi
 };
 
 // Assign a new role to a user in a workspace
-export const assignRoleToUser = async (userId: string, workspaceId: string, roleId: string) => {
+export const assignRoleToUser = async (userId: string, workspaceId: string, roleId: any) => {
   const userRoleAssignment = new UserRoleAssignment({
     userId,
     workspaceId,
@@ -125,11 +125,11 @@ export const updateRole = async (roleId: string, name: string, permissions: stri
 
 // Delete a role
 export const deleteRole = async (roleId: string) => {
-  const role = await Role.findById(roleId);
+  const role = await Role.findByIdAndDelete(roleId);
   if (!role) {
     throw new Error('Role not found');
   }
 
-  await role.remove();
+
   return { success: true, message: 'Role deleted successfully' };
 };

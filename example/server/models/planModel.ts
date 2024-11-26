@@ -12,8 +12,10 @@ const planSchema = new Schema({
     type: Number ,
     // required: true,
     min: 1,  // Ensure at least 1 user is allowed
+    default: 1
 },
 maxWorkspaces: {
+  default: 1,
     type: Number,
     // required: true,
     min: 1,  // Ensure at least 1 workspace is allowed
