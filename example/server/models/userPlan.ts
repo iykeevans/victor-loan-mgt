@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-// Define the structure for User Plan
+// Define the structure for User Plan subscribed user pln
 interface IUserPlan extends Document {
   userId: string;
   planId: string;  // Plan ID references a Plan model
