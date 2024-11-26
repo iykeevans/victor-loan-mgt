@@ -19,6 +19,7 @@
 	"module": "dist/esm/index.js",
 	"dependencies": {
 		"@sendgrid/mail": "^8.1.4",
+		"@types/bcrypt": "^5.0.2",
 		"@types/express": "^5.0.0",
 		"bcryptjs": "^2.4.3",
 		"dotenv": "^16.4.5",
