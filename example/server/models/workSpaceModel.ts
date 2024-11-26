@@ -19,18 +19,18 @@ export interface Workspace extends Document {
   ownerId: mongoose.Types.ObjectId; // Reference to User (workspace creator)
   plan: mongoose.Types.ObjectId,
   description: string;
-  plugins: IPlugin[];
-  //  plugins: Array<{
-//     pluginId: mongoose.Types.ObjectId;
-//     purchased: boolean;
-//     installed: boolean;
-//   }>;
+//  plugins: IPlugin[];
+   plugins: Array<{
+    pluginId: mongoose.Types.ObjectId;
+    purchased: boolean;
+    installed: boolean;
+  }>;
 renewalStatus?: boolean;
 licenseKey?: string;
 licenseExpiryDate?: Date;
   members: {
     userId: mongoose.Types.ObjectId; // Reference to User
-    role: UserRole;                   // Role in the workspace
+    role: any;                   // Role in the workspace
   }[];
 }
 
