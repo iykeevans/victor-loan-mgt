@@ -5,9 +5,16 @@ import jwt from 'jsonwebtoken'; // Assuming JWT authentication
 import User from '../models/userModel'; // Assuming you have a User model
 import Workspace from '../models/workSpaceModel';
 
+export interface IRequestUser{
+  userID?: string;
+  identifier?: string;
+  workspace?:any;
+  user?: any
+}
+
 
 // Middleware to ensure the user is authenticated
-export const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
+export const ensureAuthenticated = async (req: Request & IRequestUser, res: Response, next: NextFunction) => {
   const token : any= req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
   
   if (!token) {
@@ -16,14 +23,13 @@ export const ensureAuthenticated = async (req: Request, res: Response, next: Nex
 
   try {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-  const  userID = decoded.userID;
+    const  userID = decoded.userID;
      // Extract workspaceId from the request (URL, body, or query)
      const workspaceIdFromRequest = decoded.workspaceId ||   req.body.workspaceId || req.query.workspaceId || req.params.workspaceId;
 
      if (!workspaceIdFromRequest) {
        return res.status(400).json({ message: 'Workspace ID is required' });
      }
- 
     // Check if the user exists in the workspace
     const workspace = await Workspace.findById(workspaceIdFromRequest).populate('members');
     if (!workspace) {
@@ -37,7 +43,7 @@ export const ensureAuthenticated = async (req: Request, res: Response, next: Nex
      // Attach the decoded user and workspace information to the request object
      req.user = decoded;
      req.workspace = workspace;
-     req.userId = decoded.userId;  // Attach userId to the request object
+     req.userID = decoded.userId;  // Attach userId to the request object
     next();
   } catch (err) {
     res.status(401).json({ message: 'Invalid or expired token' });
@@ -45,14 +51,14 @@ export const ensureAuthenticated = async (req: Request, res: Response, next: Nex
 };
 
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken = (req:  Request & IRequestUser, res: Response, next: NextFunction) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
     return res.status(403).json({ message: 'Access denied, no token provided' });
   }
 
-  jwt.verify(token, 'your_jwt_secret', (err, decoded) => {
+  jwt.verify(token, 'your_jwt_secret', (err: any, decoded: any) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid or expired token' });
     }
@@ -66,9 +72,9 @@ export const verifyToken = (req, res, next) => {
 
 // Middleware to check if the user has the required permission
 export const hasPermission = (permission: string) => {
-  return async (req: Request, res: Response, next: NextFunction) :Promise<any> => {
+  return async (req:  Request & IRequestUser, res: Response, next: NextFunction) :Promise<any> => {
     try {
-      const user = await User.findById(req.userId);  // Assuming userId is added to req by auth middleware
+      const user = await User.findById(req.userID);  // Assuming userId is added to req by auth middleware
       if (!user) return res.status(404).json({ message: 'User not found' });
 
       // Check if the user has the permission
