@@ -19,9 +19,9 @@ export interface IUser extends Document {
   lastApiCallCount: number;
   roles: mongoose.Types.ObjectId[];
   permissions: any[];
-  subscriptions:  mongoose.Types.ObjectId[];
+  subscriptions:  string[];
   userFunctions:mongoose.Types.ObjectId[];
-  subscriptionExpiresAt: Date;
+  subscriptionExpiresAt: Date | null;
   workspaces: mongoose.Types.ObjectId[]; // Reference to workspaces the user is part of
   assignPermissions: ()=> void
 }

@@ -4,11 +4,11 @@ import { Schema, model, Document } from 'mongoose';
 interface IUserPlan extends Document {
   userId: string;
   planId: string;  // Plan ID references a Plan model
-  status: 'active' | 'inactive'; // Status of the plan
+  status: string; // 'active' | 'inactive'; // Status of the plan
   startDate: Date;
   endDate: Date;
   rateLimit: number;  // Rate limit for API usage
-  frequency: 'daily' | 'weekly' | 'monthly' | 'annually';  // Billing cycle
+  frequency: string; // 'daily' | 'weekly' | 'monthly' | 'annually';  // Billing cycle
 }
 
 const UserPlanSchema = new Schema<IUserPlan>({
