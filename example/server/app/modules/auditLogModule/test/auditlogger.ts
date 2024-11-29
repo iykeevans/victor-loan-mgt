@@ -35,7 +35,7 @@ describe('Audit Log API', () => {
   });
 
   it('should retrieve an audit log by ID', async () => {
-    const log = await request(app).get('/api/audit/logs').then((res) => res.body[0]);
+    const log = await request(app).get('/api/audit/logs').then((res: any) => res.body[0]);
     const logDetails = await request(app).get(`/api/audit/logs/${log._id}`);
     expect(logDetails.status).toBe(200);
     expect(logDetails.body).toHaveProperty('userIp');
