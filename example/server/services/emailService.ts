@@ -45,10 +45,10 @@ const sendEmailViaGmail = async (email: string, subject: string, html: string) =
 };
 
 // Function to send email via SendGrid
-const sendEmailViaSendGrid = async (email: string, subject: string, html: any) => {
+const sendEmailViaSendGrid = async (email: string, subject: string, html: string) => {
   const msg = {
     to: email,
-    from: process.env.SENDGRID_FROM_EMAIL,  // This should be your verified SendGrid sender email
+    from: "" + process.env.SENDGRID_FROM_EMAIL,  // This should be your verified SendGrid sender email
     subject: subject,
     html: html,
   };
