@@ -10,7 +10,6 @@ import {
 
 
 import User from '../models/userModel';
-import Role from '../models/roleModel';
 import Permission from '../models/permissionModel';
 
 // Create a new role

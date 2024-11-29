@@ -5,13 +5,14 @@ import * as workspaceService from '../services/workspaceService';
 import User from '../models/userModel';
 import Plan from '../models/planModel';
 import workSpaceModel from '../models/workSpaceModel';
+import { IRequestUser } from '../middlewares/authMiddleware';
 
-export const createWorkspace = async (req: Request, res: Response) => {
+export const createWorkspace = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
   const { name } = req.body;
   const { userId, planId } = req.user; // Assuming userId is set from authentication middleware
 
   const user = await User.findById(userId);
-  const plan = await Plan.findById(planId);
+  const plan : any  = await Plan.findById(planId);
 
   if (!user || !plan) {
  
@@ -38,7 +39,7 @@ export const createWorkspace = async (req: Request, res: Response) => {
   }
 };
 
-export const inviteToWorkspace = async (req: Request, res: Response) => {
+export const inviteToWorkspace = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
   const { inviteeEmail, workspaceId } = req.body;
   const { userId } = req.user; // Assuming userId is set from authentication middleware
 
@@ -50,7 +51,7 @@ export const inviteToWorkspace = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptInvite = async (req: Request, res: Response) => {
+export const acceptInvite = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
   const { workspaceId } = req.params;
   const { userId } = req.user; // Assuming userId is set from authentication middleware
 
@@ -62,7 +63,7 @@ export const acceptInvite = async (req: Request, res: Response) => {
   }
 };
 
-export const assignRole = async (req: Request, res: Response) => {
+export const assignRole = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
   const { userId, role } = req.body;
   const { workspaceId } = req.params;
   const { adminId } = req.user; // Assuming adminId is set from authentication middleware
@@ -75,7 +76,7 @@ export const assignRole = async (req: Request, res: Response) => {
   }
 };
 
-export const removeMember = async (req: Request, res: Response) => {
+export const removeMember = async (req: Request & IRequestUser, res: Response):Promise<any>  => {
   const { userId } = req.params;
   const { workspaceId } = req.params;
   const { adminId } = req.user; // Assuming adminId is set from authentication middleware
@@ -90,7 +91,7 @@ export const removeMember = async (req: Request, res: Response) => {
 
 
 
-export const createCustomRoleController = async (req: Request, res: Response) => {
+export const createCustomRoleController = async (req: Request, res: Response) :Promise<any> => {
   try {
     const { adminId, workspaceId, roleName, permissions } = req.body;
     const result = await workspaceService.createCustomRole(adminId, workspaceId, roleName, permissions);

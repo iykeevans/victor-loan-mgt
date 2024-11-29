@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkRateLimit } from '../utils/rateLimiter';
+import {  checkApiRateLimit } from '../services/rateLimiterService';
 import { Request, Response } from 'express';
 
 const router = express.Router();
@@ -9,7 +9,7 @@ router.get('/api', async (req: Request, res: Response) => {
   const userId = req.query.userId as string;
   
   try {
-    await checkRateLimit(userId);
+    await  checkApiRateLimit(userId);
     res.status(200).json({ message: 'API call allowed' });
   } catch (error: any) {
     res.status(400).json({ error: error.message });

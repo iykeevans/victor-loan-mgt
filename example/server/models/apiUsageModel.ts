@@ -1,6 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
-
+import { Types } from 'mongoose';
 interface IUserApiUsage extends Document {
+  _id: Types.ObjectId;
   userId: string;
   apiCalls: number;
   lastReset: Date; // When the count was last reset (could be daily, weekly, etc.)

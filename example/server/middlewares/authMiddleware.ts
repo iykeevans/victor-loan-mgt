@@ -4,6 +4,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken'; // Assuming JWT authentication
 import User from '../models/userModel'; // Assuming you have a User model
 import Workspace from '../models/workSpaceModel';
+import PluginManagerService, { checkPluginAccess} from '../services/pluginServce';
+
 
 export interface IRequestUser{
   userID?: string;
@@ -13,11 +15,12 @@ export interface IRequestUser{
   roles: any;
   role?: string;
   userFunctions?: any;
+  workSpaceId?: any;
 }
 
 
 // Middleware to ensure the user is authenticated
-export const ensureAuthenticated = async (req: Request & IRequestUser, res: Response, next: NextFunction) => {
+export const ensureAuthenticated = async (req: Request & IRequestUser, res: any, next: any) => {
   const token : any= req.headers['authorization']?.split(' ')[1]; // Get token from Authorization header
   
   if (!token) {
@@ -96,3 +99,9 @@ export const hasPermission = (permission: string) => {
 
 
 
+const pluginManagerMiddleware = async (req: Request, res: Response, next: any) => {
+  const { workspaceId, pluginName } = req.params;  // Assume pluginName and workspaceId are passed in the request
+  await checkPluginAccess(workspaceId, pluginName, res, next);
+};
+
+export default pluginManagerMiddleware;

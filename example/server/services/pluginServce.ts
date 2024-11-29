@@ -1,6 +1,6 @@
 // src/services/pluginService.ts
-import Plugin from '../models/pluginModel';
-import Workspace from '../models/workspaceModel';
+import Plugin, {IPlugin} from '../models/pluginModel';
+import Workspace from '../models/workSpaceModel';
 import { Types } from 'mongoose';
 
 class PluginService {
@@ -14,7 +14,7 @@ class PluginService {
     }
 
     // Check if the plugin is already installed
-    const pluginInWorkspace = workspace.plugins.find(
+    const pluginInWorkspace: any = workspace.plugins.find(
       (p) => p.pluginId.toString() === pluginId.toString()
     );
     if (pluginInWorkspace?.installed) {
@@ -30,7 +30,7 @@ class PluginService {
     workspace.plugins.push({
       pluginId,
       installed: true,
-      purchased: plugin.isPurchasable ? pluginInWorkspace?.purchased : true,
+      purchased: plugin.isPurchasable ? pluginInWorkspace.purchased : true,
     });
 
     await workspace.save();
@@ -40,7 +40,7 @@ class PluginService {
   // Purchase a plugin
   async purchasePlugin(workspaceId: Types.ObjectId, pluginId: Types.ObjectId) {
     const workspace = await Workspace.findById(workspaceId).exec();
-    const plugin = await Plugin.findById(pluginId).exec();
+    const plugin :any = await Plugin.findById(pluginId).exec();
 
     if (!workspace || !plugin) {
       throw new Error('Workspace or Plugin not found');
@@ -71,9 +71,9 @@ class PluginService {
   }
 
   // Check if a plugin is free or purchased before usage
-  async checkPluginAccess(workspaceId: string, pluginName: string, res: Response, next: NextFunction) {
+  async checkPluginAccess(workspaceId: string, pluginName: string, res: any, next: any) {
     // Find the plugin by name
-    const plugin = await Plugin.findOne({ name: pluginName }).exec();
+    const plugin :any = await Plugin.findOne({ name: pluginName }).exec();
     if (!plugin) {
       return res.status(404).json({ message: 'Plugin not found' });
     }
@@ -101,9 +101,9 @@ class PluginService {
 }
 
 
-export   async function checkPluginAccess(workspaceId: string, name: string, res: Response, next: NextFunction) {
+export   async function checkPluginAccess(workspaceId: string, name: string, res: any, next: any) {
   // Find the plugin by name
-  const plugin = await Plugin.findOne({ name: name }).exec();
+  const plugin :any = await Plugin.findOne({ name: name }).exec();
   if (!plugin) {
     return res.status(404).json({ message: 'Plugin not found' });
   }

@@ -1,10 +1,7 @@
 import { Router } from 'express';
-
 import * as authController from '../controllers/authController';
 
 const router = Router();
-
-// Routes
 router.get('/check-session', authController.checkSession);
 router.get('/identity', authController.authenticateUser);
 router.get('/get-auth-service-token', authController.getAuthorizerToken);

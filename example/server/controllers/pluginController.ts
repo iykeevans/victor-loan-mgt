@@ -2,6 +2,8 @@
 import { Request, Response } from 'express';
 import PluginService from '../services/pluginServce';
 import axios from 'axios'; // Using axios to make HTTP requests
+import {IRequestUser } from "../middlewares/authMiddleware"
+import { Config } from '../app/config/server.config';
 
 class PluginController {
   // Install a plugin
@@ -41,28 +43,28 @@ export default new PluginController();
 
 
 
-// export const usePlugin = async (req: Request, res: Response) :Promise<any> => {
-//   const { pluginName } = req.params;  // The name of the plugin (e.g., "workspaceSettings")
-//   const workspaceId = req.workspaceId;  // The workspaceId from the request context
+export const usePluginServiceCommunicator = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
+  const { pluginName } = req.params;  // The name of the plugin (e.g., "workspaceSettings")
+  const workspaceId = req.workSpaceId;  // The workspaceId from the request context
 
-//   const pluginUrl = `http://localhost:3000/api/plugins/${pluginName}`;  // Assuming each plugin has a base route like /api/plugins/workspaceSettings
+  const pluginUrl = `${Config.BASE_URL}/api/plugins/${pluginName}`;  // Assuming each plugin has a base route like /api/plugins/workspaceSettings
 
-//   try {
-//     // Forward the request to the corresponding plugin's API route
-//     const pluginResponse = await axios({
-//       method: req.method,  // Forward the original HTTP method (GET, POST, etc.)
-//       url: `${pluginUrl}${req.url}`,  // Forward the original URL
-//       headers: req.headers,  // Forward the headers, including authorization if needed
-//       data: req.body,  // Forward the request body for POST/PUT requests
-//       params: req.query,  // Forward query parameters
-//     });
+  try {
+    // Forward the request to the corresponding plugin's API route
+    const pluginResponse = await axios({
+      method: req.method,  // Forward the original HTTP method (GET, POST, etc.)
+      url: `${pluginUrl}${req.url}`,  // Forward the original URL
+      headers: req.headers,  // Forward the headers, including authorization if needed
+      data: req.body,  // Forward the request body for POST/PUT requests
+      params: req.query,  // Forward query parameters
+    });
 
-//     // Send back the response from the plugin
-//     res.status(pluginResponse.status).json(pluginResponse.data);
-//   } catch (error) {
-//     // Handle errors if the plugin request fails
-//     console.error('Error while forwarding the request to the plugin:', error);
-//     res.status(500).json({ message: 'Internal server error while accessing plugin', error: error.message });
-//   }
-// };
+    // Send back the response from the plugin
+    res.status(pluginResponse.status).json(pluginResponse.data);
+  } catch (error: any) {
+    // Handle errors if the plugin request fails
+    console.error('Error while forwarding the request to the plugin:', error);
+    res.status(500).json({ message: 'Internal server error while accessing plugin', error: error.message });
+  }
+};
 

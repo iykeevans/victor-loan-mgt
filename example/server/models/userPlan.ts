@@ -1,7 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
-
+import { Types } from 'mongoose';
 // Define the structure for User Plan subscribed user pln
 interface IUserPlan extends Document {
+  _id: Types.ObjectId;
   userId: string;
   planId: string;  // Plan ID references a Plan model
   status: string; // 'active' | 'inactive'; // Status of the plan

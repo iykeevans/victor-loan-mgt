@@ -1,9 +1,10 @@
 // src/models/Role.ts
 import mongoose, { Document, Schema } from 'mongoose';
-
+import { Types } from 'mongoose';
 // every work space can create their roles eg HR, Superadmin, finance,marketting, growth etc
 
 export interface IRole extends Document {
+  _id: Types.ObjectId;
   name: string;
   permissions: string[];  // Array of permission IDs
   workspaceId:mongoose.Schema.Types.ObjectId;  // The workspace this role belongs to

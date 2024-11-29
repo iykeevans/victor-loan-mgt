@@ -1,6 +1,7 @@
 // src/models/Workspace.ts
 
 import mongoose, { Schema, Document } from 'mongoose';
+import { Types } from 'mongoose';
 // roles will be dynmiclly created
 export enum UserRole {
   OWNER = 'Super Admin',
@@ -15,6 +16,7 @@ export interface IPlugin {
   
 
 export interface Workspace extends Document {
+  _id: Types.ObjectId;
   name: string;
   ownerId: mongoose.Types.ObjectId; // Reference to User (workspace creator)
   plan: mongoose.Types.ObjectId,

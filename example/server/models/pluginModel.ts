@@ -1,8 +1,9 @@
 
 // src/plugins/pluginModel.ts
 import mongoose, { Schema, Document } from 'mongoose';
-
+import { Types } from 'mongoose';
 export interface IPlugin extends Document {
+
   name: string;
   description: string;
   isPurchasable: boolean;
