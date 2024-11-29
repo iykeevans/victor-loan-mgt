@@ -9,7 +9,10 @@ export interface IRequestUser{
   userID?: string;
   identifier?: string;
   workspace?:any;
-  user?: any
+  user?: any;
+  roles: any;
+  role?: string;
+  userFunctions?: any;
 }
 
 
@@ -44,6 +47,8 @@ export const ensureAuthenticated = async (req: Request & IRequestUser, res: Resp
      req.user = decoded;
      req.workspace = workspace;
      req.userID = decoded.userId;  // Attach userId to the request object
+     req.role = decoded.role
+     req.userFunctions = decoded.userFunctions
     next();
   } catch (err) {
     res.status(401).json({ message: 'Invalid or expired token' });

@@ -34,7 +34,7 @@ export const inviteToWorkspace = async (
   workspaceId: string
 ) => {
 
-     // Check if inviter has invite permission
+  // Check if inviter has invite permission
   await checkPermission(inviterId, workspaceId, 'invite');
 
 
@@ -43,8 +43,8 @@ export const inviteToWorkspace = async (
 
   // Check if the inviter is an admin or owner
   const inviter = workspace.members.find(
-    (member : any) => member.userId.toString() === inviterId && 
-                [UserRole.ADMIN, UserRole.OWNER].includes(member.role)
+    (member: any) => member.userId.toString() === inviterId &&
+      [UserRole.ADMIN, UserRole.OWNER].includes(member.role)
   );
   if (!inviter) throw new Error('Permission denied');
 
@@ -54,17 +54,17 @@ export const inviteToWorkspace = async (
 
 
 
-   // Find the user and the workspace
-  
-   const planId = workspace.plan;  // Plan associated with the workspace
-   const plan = await Plan.findById(planId)
-   if (!plan) throw new Error('Pln not found');
- 
+  // Find the user and the workspace
 
-   // Check if the number of users exceeds the plan's maxUsers
-   if (workspace.members.length >= plan.maxUsers) {
-       throw new Error(`Cannot add more users. The limit of ${plan.maxUsers} has been reached.`);
-   }
+  const planId = workspace.plan;  // Plan associated with the workspace
+  const plan = await Plan.findById(planId)
+  if (!plan) throw new Error('Pln not found');
+
+
+  // Check if the number of users exceeds the plan's maxUsers
+  if (workspace.members.length >= plan.maxUsers) {
+    throw new Error(`Cannot add more users. The limit of ${plan.maxUsers} has been reached.`);
+  }
 
   // Send an invite email to the invitee
   const invitationLink = `http://localhost:3001/workspace/${workspaceId}/accept-invite`;
@@ -105,7 +105,7 @@ export const assignRole = async (
   newRole: any //UserRole
 ) => {
 
- 
+
 
 
   const workspace = await Workspace.findById(workspaceId).exec();
@@ -113,20 +113,20 @@ export const assignRole = async (
 
   // Check if the adminId has permission to assign roles
   //     // Check if the admin has permission to assign roles
-   await checkPermission(adminId, workspaceId, 'assignRole');
+  await checkPermission(adminId, workspaceId, 'assignRole');
   const admin = workspace.members.find(
-    (member : any) => member.userId.toString() === adminId && member.role === UserRole.OWNER
+    (member: any) => member.userId.toString() === adminId && member.role === UserRole.OWNER
   );
   if (!admin) throw new Error('Permission denied');
 
 
 
 
-const role = await Role.findOne({ name: newRole }).exec();
-if (!role) throw new Error('Role not found');
+  const role = await Role.findOne({ name: newRole }).exec();
+  if (!role) throw new Error('Role not found');
 
-// Assign the role to the user
-await assignRoleToUser(userId, workspaceId, role._id);
+  // Assign the role to the user
+  await assignRoleToUser(userId, workspaceId, role._id);
 
   return { success: true, message: 'Role updated successfully' };
 };
@@ -160,18 +160,18 @@ export const removeMember = async (adminId: string, userId: string, workspaceId:
 
 // Create a custom role
 export const createCustomRole = async (adminId: string, workspaceId: string, roleName: string, permissions: string[]) => {
-    // Check if the admin has permission to create roles
-    await checkPermission(adminId, workspaceId, 'assignRole');
-  
-    // Create the custom role
-    const newRole = await createRole( workspaceId, roleName, permissions);
-  
-    return { success: true, message: `Role ${roleName} created successfully`, role: newRole };
-  };
+  // Check if the admin has permission to create roles
+  await checkPermission(adminId, workspaceId, 'assignRole');
+
+  // Create the custom role
+  const newRole = await createRole(workspaceId, roleName, permissions);
+
+  return { success: true, message: `Role ${roleName} created successfully`, role: newRole };
+};
 
 
 
-  // src/services/workspaceSettingsService.ts
+// src/services/workspaceSettingsService.ts
 
 export const getWorkspaceDetails = async (workspaceId: string) => {
   // Fetch the workspace details from the database

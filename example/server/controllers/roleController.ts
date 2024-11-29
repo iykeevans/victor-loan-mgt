@@ -83,8 +83,8 @@ export const getUserRolePermissions = async (userId: string) => {
     }
 
     // Step 2: Get the role of the user
-    const role = user.role;
-
+    const roleId = user.role;
+    const role = await getRoleById(roleId);
     // Step 3: Get all permissions associated with the role
     const permissions = await Permission.find({ '_id': { $in: role.permissions } });
 

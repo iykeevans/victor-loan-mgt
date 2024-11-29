@@ -17,6 +17,7 @@ export interface IUser extends Document {
   apiKey: string;
   lastApiCall: Date;
   lastApiCallCount: number;
+  role: mongoose.Types.ObjectId;
   roles: mongoose.Types.ObjectId[];
   permissions: any[];
   subscriptions:  string[];
@@ -43,6 +44,7 @@ const userSchema = new Schema<IUser>({
   subscriptions: [{ type:  mongoose.Schema.Types.ObjectId, ref: 'Plan' }], // Reference to subscribed plans
   subscriptionExpiresAt: { type: Date }, // The expiration of the subscription (if applicable)
   lastApiCall: { type: Date },
+  role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
   lastApiCallCount: { type: Number, required: true, default: 0 },
   roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],  // User has roles
   permissions: [{ type: String }],  // You can store permissions here if needed

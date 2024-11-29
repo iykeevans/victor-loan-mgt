@@ -25,7 +25,6 @@ router.get('/workspaces/:workspaceId/roles', ensureAuthenticated, getAllRolesCon
 router.get('/roles/:roleId', ensureAuthenticated, getRoleByIdController);
 router.put('/roles/:roleId', ensureAuthenticated, updateRoleController);
 router.delete('/roles/:roleId', ensureAuthenticated, deleteRoleController);
-
 // Middleware for ensuring the user is authenticated and authorized
 router.post('/permissions', ensureAuthenticated, createPermissionController); // Create permission
 router.get('/permissions', ensureAuthenticated, getAllPermissionsController); // Get all permissions
