@@ -16,7 +16,7 @@ const pluginSchema: Schema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     isPurchasable: { type: Boolean, default: false },
-    price: { type: Number, required: function () { return this.isPurchasable; } },
+    price: { type: Number, required: true, default: 0 },
     installed: { type: Boolean, default: false },
     purchased: { type: Boolean, default: false },
   },
