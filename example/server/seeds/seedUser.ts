@@ -6,9 +6,9 @@ import Plan from '../models/planModel';  // Import Plan model to fetch the plans
 const seedUsers = async () => {
   try {
     // Fetch available plans to assign to users
-    const freePlan = await Plan.findOne({ name: 'Free Plan' }).exec();
-    const basicPlan = await Plan.findOne({ name: 'Basic Plan' }).exec();
-    const proPlan = await Plan.findOne({ name: 'Pro Plan' }).exec();
+    const freePlan: any = await Plan.findOne({ name: 'Free Plan' }).exec();
+    const basicPlan : any= await Plan.findOne({ name: 'Basic Plan' }).exec();
+    const proPlan : any= await Plan.findOne({ name: 'Pro Plan' }).exec();
 
     const users = [
       {

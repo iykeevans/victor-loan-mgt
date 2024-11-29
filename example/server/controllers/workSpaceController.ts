@@ -7,7 +7,7 @@ import Plan from '../models/planModel';
 import workSpaceModel from '../models/workSpaceModel';
 import { IRequestUser } from '../middlewares/authMiddleware';
 
-export const createWorkspace = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
+export const createWorkspace = async (req: any, res: Response) :Promise<any> => {
   const { name } = req.body;
   const { userId, planId } = req.user; // Assuming userId is set from authentication middleware
 
@@ -39,7 +39,7 @@ export const createWorkspace = async (req: Request & IRequestUser, res: Response
   }
 };
 
-export const inviteToWorkspace = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
+export const inviteToWorkspace = async (req: any, res: Response) :Promise<any> => {
   const { inviteeEmail, workspaceId } = req.body;
   const { userId } = req.user; // Assuming userId is set from authentication middleware
 
@@ -51,7 +51,7 @@ export const inviteToWorkspace = async (req: Request & IRequestUser, res: Respon
   }
 };
 
-export const acceptInvite = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
+export const acceptInvite = async (req: any, res: Response) :Promise<any> => {
   const { workspaceId } = req.params;
   const { userId } = req.user; // Assuming userId is set from authentication middleware
 
@@ -63,7 +63,7 @@ export const acceptInvite = async (req: Request & IRequestUser, res: Response) :
   }
 };
 
-export const assignRole = async (req: Request & IRequestUser, res: Response) :Promise<any> => {
+export const assignRole = async (req: any, res: Response) :Promise<any> => {
   const { userId, role } = req.body;
   const { workspaceId } = req.params;
   const { adminId } = req.user; // Assuming adminId is set from authentication middleware
@@ -76,7 +76,7 @@ export const assignRole = async (req: Request & IRequestUser, res: Response) :Pr
   }
 };
 
-export const removeMember = async (req: Request & IRequestUser, res: Response):Promise<any>  => {
+export const removeMember = async (req: any, res: Response):Promise<any>  => {
   const { userId } = req.params;
   const { workspaceId } = req.params;
   const { adminId } = req.user; // Assuming adminId is set from authentication middleware

@@ -168,45 +168,33 @@ export const deletePlan = async (planId: string) => {
 // Create a user plan
 export const createUserPlanService = async (
     userId: any, planId: any, rateLimit: number, frequency: string) => {
-    const plan = await Plan.findById(planId);
+    const plan: any = await Plan.findById(planId);
     if (!plan) {
         throw new Error('Plan not found');
     }
-
     let startDate = new Date
     let endDate = new Date
-
-
     switch (frequency) {
         case 'daily': {
             startDate = new Date()
             endDate = new Date(new Date().setDate(new Date().getDate() + 1))
-
             break;
         }
-
         case 'weekly': {
             startDate = new Date()
             endDate = new Date(new Date().setDate(new Date().getDate() + 7))
-
             break;
         }
-
-
         case 'monthly': {
             startDate = new Date()
             endDate = new Date(new Date().setMonth(new Date().getMonth() + 1))
-
             break;
         }
-
         case 'annually': {
             startDate = new Date()
             endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-
             break;
         }
-
     }
     const userPlan = new UserPlan({
         userId,
@@ -216,19 +204,15 @@ export const createUserPlanService = async (
         startDate: startDate,
         endDate: endDate,
     });
-
     // update user subscription to plan
     const user = await User.findById(userId).exec();
     if (!user) {
         throw new Error('User not found');
     }
-
-
     // Add the plan to the user's subscriptions
     user.subscriptions.push(plan._id);
     user.subscriptionExpiresAt = endDate; // Set to expiry (e.g., 1 month)
     await user.save();
-
     return await userPlan.save();
 };
 
@@ -248,13 +232,10 @@ export const updateUserPlanService = async (userId: string, updateData: any) => 
         throw new Error('User plan not found');
     }
     const planId = updateData.planId
-
     const plan = await Plan.findById(planId);
     if (!plan) {
         throw new Error('Plan not found');
     }
-
-
     const user = await User.findById(userId).exec();
     if (!user) {
         throw new Error('User not found');
@@ -263,10 +244,8 @@ export const updateUserPlanService = async (userId: string, updateData: any) => 
     userPlan.rateLimit = updateData.rateLimit || userPlan.rateLimit;
     userPlan.frequency = updateData.frequency || userPlan.frequency;
     userPlan.status = updateData.status || userPlan.status;
-
     const chosenFrequency = updateData.frequency
     let endDate = new Date;
-
     switch (chosenFrequency) {
         case 'daily': {
             endDate = new Date(new Date().setDate(new Date().getDate() + 1))
@@ -290,7 +269,7 @@ export const updateUserPlanService = async (userId: string, updateData: any) => 
     //const oldPlanId = user.planId
     // remove old plan in user's subscriptions
     user.subscriptions = []  // for one user should only subscribe to 1 plan
-    user.subscriptions.push(plan._id);
+    user.subscriptions.push(planId);
     user.subscriptionExpiresAt = endDate; // Set to expiry (e.g., 1 month)
     userPlan.planId = planId
     await user.save();
