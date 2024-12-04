@@ -21,6 +21,7 @@
 		"@sendgrid/mail": "^8.1.4",
 		"@types/bcrypt": "^5.0.2",
 		"@types/express": "^5.0.0",
+		"bcrypt": "^5.1.1",
 		"bcryptjs": "^2.4.3",
 		"dotenv": "^16.4.5",
 		"express": "^4.21.1",
@@ -29,6 +30,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.8.2",
 		"nodemailer": "^6.9.16",
+		"supertest": "^7.0.0",
 		"twilio": "^5.3.6",
 		"use-local-storage-state": "^18.3.3"
 	},
@@ -81,6 +83,7 @@
 		"@types/nodemailer": "^6.4.17",
 		"@types/react": "^18.2.8",
 		"@types/react-dom": "^18.2.4",
+		"@types/supertest": "^6.0.2",
 		"babel-jest": "^29.5.0",
 		"babel-loader": "^9.1.2",
 		"builtin-modules": "^3.3.0",
