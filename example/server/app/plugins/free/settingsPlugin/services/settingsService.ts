@@ -1,6 +1,6 @@
 // src/plugins/settingsPlugin/settingsPluginService.ts
-import Workspace from '../../../../models/workSpaceModel';
-import User from '../../../../models/userModel';
+import Workspace from '../../../../../models/workSpaceModel';
+import User from '../../../../../models/userModel';
 import SettingsPlugin from '../model/settingsModel';
 import { Types } from 'mongoose';
 
@@ -10,7 +10,7 @@ class SettingsPluginService {
     const workspace = await Workspace.findById(workspaceId).exec();
     if (!workspace) throw new Error('Workspace not found');
 
-    const plugin = await SettingsPlugin.findOne({ name: 'Settings Plugin' }).exec();
+    const plugin : any = await SettingsPlugin.findOne({ name: 'Settings Plugin' }).exec();
     if (!plugin) throw new Error('Settings Plugin not found');
 
     workspace.plugins.push({
@@ -28,7 +28,7 @@ class SettingsPluginService {
     const workspace = await Workspace.findById(workspaceId).exec();
     if (!workspace) throw new Error('Workspace not found');
 
-    const user = await User.findById(userId).exec();
+    const user : any = await User.findById(userId).exec();
     if (!user) throw new Error('User not found');
 
     return workspace.ownerId.toString() === userId.toString() || user.role === 'ADMIN';

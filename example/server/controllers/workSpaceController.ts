@@ -90,6 +90,18 @@ export const removeMember = async (req: any, res: Response):Promise<any>  => {
 };
 
 
+export const getWokSpaceDetail = async (req: Request, res: Response) :Promise<any>=> {
+  try {
+    const { workSpaceId } = req.params;
+    const workSpaceInfo = await workSpaceModel.findById(workSpaceId)
+    res.status(200).json(workSpaceInfo);
+  } catch (error: any) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+
+
 
 export const createCustomRoleController = async (req: Request, res: Response) :Promise<any> => {
   try {
