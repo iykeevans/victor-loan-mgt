@@ -1,8 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
+import  { Request, Response, NextFunction, Application } from 'express';
 import axios from 'axios';
 import Plugin from '../../models/pluginModel'; // Assume this is your plugin model
-// plugins/pluginManager.ts
-
 
 interface PluginRoute {
   method:  string; //'get' | 'post' | 'put' | 'delete';
@@ -10,27 +8,17 @@ interface PluginRoute {
   handler: Function;
 }
 
-
-
 class PluginManager {
   private plugins: { [key: string]: PluginRoute[] } = {};
-
   private app: any;
-
-  constructor(app: any) {
-    this.app = app;
-  }
-
+  constructor() {}
   // Registers a plugin's routes
   registerPluginRoutes(pluginName: string, routes: PluginRoute[]) {
-    this.plugins[pluginName] = routes;
+    this.plugins[pluginName] = routes; 
   }
-
-  // getPlugin(pluginName: string): Plugin | undefined {
-  //   return this.plugins.get(pluginName);
-  // }
-
-  
+  setApp(app :Application){
+    this.app = app;
+  }
   // Register routes for all active plugins
   public registerPluginRoutesManually() {
     //Eg. Register Billing Plugin routes
@@ -48,8 +36,7 @@ class PluginManager {
   // Intercepts the plugin usage request and dynamically forwards the request to the correct route
   export async function  usePlugin(req: Request, res: Response, next: NextFunction) {
     const pluginName = req.params.pluginName;
-    const app : any= [] //
-    const plugins: any = new PluginManager(app)
+    const plugins: any = new PluginManager()
     const pluginRoutes = plugins[pluginName];
 
     if (!pluginRoutes) {
@@ -86,7 +73,7 @@ class PluginManager {
 
     return true; // Allow access if plugin is free or already purchased
   }
-export default   PluginManager //new PluginManager();
+export default   new PluginManager();
 
 
 

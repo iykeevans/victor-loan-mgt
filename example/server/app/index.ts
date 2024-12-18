@@ -10,7 +10,7 @@ import { loadModules } from './moduleLoader';
 import PluginManager from './plugins/PluginManager';
 import { Express /*, Request, Response*/} from 'express';
 
-//import auditLogMiddleware from './modules/auditLogModule/middlewares/auditLogger';
+import auditLogMiddleware from './modules/auditLogModule/middlewares/auditLogger';
 // Initialize Express app
 const app : Express = express();
 
@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: true}) as RequestHandler);
 app.use(express.json() as RequestHandler); 
 
 //use custom lrge sets of middlewres audit log middleware
-// app.use(auditLogMiddleware)
+app.use(auditLogMiddleware)
 
 // MongoDB connection setup
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/oauth-example'; // Use env variable
@@ -29,8 +29,9 @@ mongoose.connect(mongoURI, /*{ useNewUrlParser: true, useUnifiedTopology: true }
 loadModules(app);
 
 // Initialize the PluginManager to register routes
-const pluginManager = new PluginManager(app);
-pluginManager.registerPluginRoutesManually() 
+//const pluginManager = new PluginManager(app);
+PluginManager.setApp(app)
+PluginManager.registerPluginRoutesManually( ) 
 
 // Setup routes core for plugin usge
 app.use('/api/plugins', pluginRoutes);

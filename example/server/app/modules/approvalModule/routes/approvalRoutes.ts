@@ -24,31 +24,16 @@ router.get('/request/:id', ApprovalController.getApprovalRequestById);
 router.post('/create',ApprovalConfigurationControllers.createApprovalConfiguration);
 // Update approval configuration
 router.put('/update/:id',ApprovalConfigurationControllers.handleUpdateApprovalConfig);
-
 // Add approver to approval configuration
 router.put('/add-approver/:id', ApprovalConfigurationControllers.addApproverToConfiguration);
-
 // Remove approver from approval configuration
-router.delete('/remove-approver/:id/:approverId', async (req, res) => {
-  try {
-    const updatedConfig = await ApprovalConfigurationService.removeApproverFromConfiguration(req.params.id, req.params.approverId);
-    res.status(200).json(updatedConfig);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.delete('/remove-approver/:id/:approverId',ApprovalConfigurationControllers.removeApproverFromConfiguration);
 
 // Delete approval configuration
 router.delete('/delete/:id', async (req, res) => {
-  try {
-    const success = await ApprovalConfigurationService.deleteApprovalConfiguration(req.params.id);
-    res.status(200).json({ success });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 });
 
-export default router;
+
 
 
 export default router;
